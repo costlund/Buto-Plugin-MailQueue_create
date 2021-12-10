@@ -1,5 +1,9 @@
-version: 1.0.0
+version: 1.1.0
 history:
+  1.1.0:
+    date: '2021-12-10'
+    title: 'New param sql_full'
+    description: 'Add new param sql_full to be used instead of sql (sum/users). Now we can send dedicated user data.'
   1.0.0:
     date: '2021-10-30'
     title: 'First version'
