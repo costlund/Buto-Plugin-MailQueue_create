@@ -7,7 +7,7 @@ class PluginMailQueue_create{
     /*
      * settings
      */
-    $this->settings = new PluginWfArray(wfPlugin::getPluginModulesOne('mail/queue_create')->get('settings'));
+    $this->settings = new PluginWfArray(wfPlugin::getPluginModulesByClass()->get('settings'));
     /*
      * mysql
      */
