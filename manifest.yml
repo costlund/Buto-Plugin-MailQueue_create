@@ -1,5 +1,9 @@
-version: 1.2.0
+version: 1.3.0
 history:
+  1.3.0:
+    date: '2021-12-13'
+    title: 'Element in message'
+    description: 'One could set element i message param.'
   1.2.0:
     date: '2021-12-11'
     title: 'Settings'

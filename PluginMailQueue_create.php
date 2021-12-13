@@ -26,7 +26,8 @@ class PluginMailQueue_create{
      * tag
      */
     $this->settings->set('tag', str_replace('[date]', date('Y-m-d'), $this->settings->get('tag')));
-
+    /**
+     */
     if($this->settings->get('sql')){
       /*
       * sql/users
@@ -76,7 +77,15 @@ class PluginMailQueue_create{
       if($rs['num_rows']){
         foreach($rs['data'] as $k => $v){
           $rs['data'][$k]['subject'] = $this->settings->get('mail/subject');
-          $rs['data'][$k]['body'] = str_replace('[mail_text]', $v['mail_text'], $this->settings->get('mail/message'));
+          $message = $this->settings->get('mail/message');
+          if(is_array($message)){
+            $message = new PluginWfArray($message);
+            $message->setByTag($v);
+            $rs['data'][$k]['body'] = $message->get();
+          }else{
+            $message = str_replace('[mail_text]', $v['mail_text'], $message);
+            $rs['data'][$k]['body'] = $message;
+          }
         }
         foreach($rs['data'] as $k => $v){
           $i = new PluginWfArray($v);

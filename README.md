@@ -43,3 +43,19 @@ This example shows how to check for user content. Mandatory outputs are id, emai
         and not isnull(a.email)
         having last_login_days>7
 ```
+Param mail/message could have elements.
+```
+        message:
+          -
+            type: p
+            innerHTML: Just a friendly reminder. You have not signed in for a long time. Please come back.
+          -
+            type: p
+            innerHTML:
+              -
+                type: span
+                innerHTML: Last login was
+              -
+                type: span
+                innerHTML: rs:mail_text
+```
