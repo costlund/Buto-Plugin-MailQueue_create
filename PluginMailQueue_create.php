@@ -76,18 +76,29 @@ class PluginMailQueue_create{
       $rs = $this->mysql->runSql($this->settings->get('sql_full'));
       if($rs['num_rows']){
         foreach($rs['data'] as $k => $v){
-          $rs['data'][$k]['subject'] = $this->settings->get('mail/subject');
+          $rs['mail'][$k]['subject'] = $this->settings->get('mail/subject');
+          $rs['mail'][$k]['email'] = $v['email'];
+          $rs['mail'][$k]['id'] = $v['id'];
           $message = $this->settings->get('mail/message');
           if(is_array($message)){
             $message = new PluginWfArray($message);
             $message->setByTag($v);
-            $rs['data'][$k]['body'] = $message->get();
+            $rs['mail'][$k]['body'] = $message->get();
           }else{
             $message = str_replace('[mail_text]', $v['mail_text'], $message);
-            $rs['data'][$k]['body'] = $message;
+            $rs['mail'][$k]['body'] = $message;
           }
         }
-        foreach($rs['data'] as $k => $v){
+        /**
+         */
+        foreach($rs['mail'] as $k => $v){
+          $subject = $v['subject'];
+          foreach($rs['data'][$k] as $k2 => $v2){
+            $subject = str_replace("[$k2]", $v2, $subject);
+          }
+          $rs['mail'][$k]['subject'] = $subject;
+        }
+        foreach($rs['mail'] as $k => $v){
           $i = new PluginWfArray($v);
           $this->mail->create(
             $i->get('subject'), 

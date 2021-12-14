@@ -26,10 +26,12 @@ This works well if all users should have the same message.
         users: "select id, email from account where id not in (select account_id from mailqueue_queue where tag='[tag]')"
 ```
 ### Example 2
-This example shows how to check for user content. Mandatory outputs are id, email, mail_text.
+This example shows how to check for user content. 
+Mandatory outputs are id, email, mail_text.
+One could set data in subject.
 ```
       mail:
-        subject: Login check
+        subject: You have not sign of for [last_login_days] days
         message: 'Just a friendly reminder. You have not signed in since [mail_text]. Please come back.'
       tag: 'logincheck_[date]'
       sql_full: |
