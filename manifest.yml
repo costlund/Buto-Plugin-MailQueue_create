@@ -1,5 +1,9 @@
-version: 1.4.0
+version: 1.4.1
 history:
+  1.4.1:
+    date: '2021-12-14'
+    title: Versions
+    description: 'Versions update.'
   1.4.0:
     date: '2021-12-14'
     title: 'Subject data'
@@ -10,7 +14,7 @@ history:
     description: 'One could set element i message param.'
   1.2.0:
     date: '2021-12-11'
-    title: 'Settings'
+    title: Settings
     description: 'Get settings from current class.'
   1.1.0:
     date: '2021-12-10'
@@ -26,7 +30,7 @@ plugin:
     version: 1.14.6
   -
     name: mail/queue
-    version: 1.7.1
+    version: 1.8.0
 sys:
   -
     name: mercury
