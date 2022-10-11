@@ -61,3 +61,6 @@ Param mail/message could have elements.
                 type: span
                 innerHTML: rs:mail_text
 ```
+
+## Tag
+Param tag can have [date] or [date_hour].

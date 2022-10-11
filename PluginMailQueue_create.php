@@ -26,6 +26,7 @@ class PluginMailQueue_create{
      * tag
      */
     $this->settings->set('tag', str_replace('[date]', date('Y-m-d'), $this->settings->get('tag')));
+    $this->settings->set('tag', str_replace('[date_hour]', date('Y-m-d_H'), $this->settings->get('tag')));
     /**
      */
     if($this->settings->get('sql')){
