@@ -3,11 +3,25 @@ class PluginMailQueue_create{
   private $settings = null;  
   private $mysql = null;
   private $mail = null;
+  private $validate = null;
+  private $i18n = null;
   function __construct() {
     /*
      * settings
      */
     $this->settings = new PluginWfArray(wfPlugin::getPluginModulesByClass()->get('settings'));
+    /**
+     * i18n
+     */
+    wfPlugin::includeonce('i18n/translate_v1');
+    $this->i18n = new PluginI18nTranslate_v1();
+    $this->settings->set('mail/subject', $this->i18n->translateFromTheme($this->settings->get('mail/subject')));
+    /**
+     * validate
+     */
+    wfPlugin::includeonce('wf/yml');
+    $this->validate = new PluginWfYml('/plugin/mail/queue_create/data/validate.yml');
+    wfPlugin::validateParams(__CLASS__, __FUNCTION__, $this->validate->get('construct'), $this->settings->get());
     /*
      * mysql
      */
@@ -22,6 +36,7 @@ class PluginMailQueue_create{
     $this->mail = new PluginMailQueue(true);
   }
   public function page_create(){
+    $dry = wfRequest::get('dry');
     /*
      * tag
      */
@@ -30,6 +45,10 @@ class PluginMailQueue_create{
     /**
      */
     if($this->settings->get('sql')){
+      /**
+       * validate
+       */
+      wfPlugin::validateParams(__CLASS__, __FUNCTION__, $this->validate->get('sql'), $this->settings->get());
       /*
       * sql/users
       */
@@ -51,30 +70,36 @@ class PluginMailQueue_create{
       */
       $this->settings->set('mail/message', str_replace('[sum]', $this->settings->get('data/sum'), $this->settings->get('mail/message')));
       $this->settings->set('mail/body', $this->settings->get('mail/declarment')."\n".$this->settings->get('mail/message'));
-      foreach($this->settings->get('data/users') as $k => $v){
-        $i = new PluginWfArray($v);
-        $this->mail->create(
-          $this->settings->get('mail/subject'), 
-          $this->settings->get('mail/body'), 
-          $i->get('email'), 
-          null, 
-          null,
-          null, 
-          null, 
-          $i->get('id'), 
-          $this->settings->get('tag')
-          );
+      if(!$dry){
+        foreach($this->settings->get('data/users') as $k => $v){
+          $i = new PluginWfArray($v);
+          $this->mail->create(
+            $this->settings->get('mail/subject'), 
+            $this->settings->get('mail/body'), 
+            $i->get('email'), 
+            null, 
+            null,
+            null, 
+            null, 
+            $i->get('id'), 
+            $this->settings->get('tag')
+            );
+        }
       }
       /**
       * 
       */
-      exit($this->settings->get('data/sum').':'.sizeof($this->settings->get('data/users')));
+      if($dry && wfUser::hasRole('webmaster')){
+        wfHelp::print($this->settings, true);
+      }else{
+        exit($this->settings->get('data/sum').':'.sizeof($this->settings->get('data/users')));
+      }
     }elseif($this->settings->get('sql_full')){
       /**
        * sql_full
        */
       $this->settings->set('sql_full', str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql_full')));
-      $rs = $this->mysql->runSql($this->settings->get('sql_full'));
+      $rs = $this->mysql->runSql($this->settings->get('sql_full'), null);
       if($rs['num_rows']){
         foreach($rs['data'] as $k => $v){
           $rs['mail'][$k]['subject'] = $this->settings->get('mail/subject');
@@ -93,28 +118,40 @@ class PluginMailQueue_create{
         /**
          */
         foreach($rs['mail'] as $k => $v){
+          $tag = $this->settings->get('tag');
           $subject = $v['subject'];
           foreach($rs['data'][$k] as $k2 => $v2){
             $subject = str_replace("[$k2]", $v2, $subject);
+            $tag = str_replace("[$k2]", $v2, $tag);
           }
           $rs['mail'][$k]['subject'] = $subject;
+          $rs['mail'][$k]['tag'] = $tag;
         }
-        foreach($rs['mail'] as $k => $v){
-          $i = new PluginWfArray($v);
-          $this->mail->create(
-            $i->get('subject'), 
-            $i->get('body'), 
-            $i->get('email'), 
-            null, 
-            null,
-            null, 
-            null, 
-            $i->get('id'), 
-            $this->settings->get('tag')
-            );
+        if(!$dry){
+          foreach($rs['mail'] as $k => $v){
+            $i = new PluginWfArray($v);
+            $this->mail->create(
+              $i->get('subject'), 
+              $i->get('body'), 
+              $i->get('email'), 
+              null, 
+              null,
+              null, 
+              null, 
+              $i->get('id'), 
+              $i->get('tag') 
+              );
+          }
         }
       }
-      exit($rs['num_rows'].' created');
+      if($dry && wfUser::hasRole('webmaster')){
+        wfHelp::print($this->settings);
+        wfHelp::print($rs, true);
+      }else{
+        exit($rs['num_rows'].' created');
+      }
+    }else{
+      exit(__CLASS__.'.'.__FUNCTION__.' says: Param sql or sql_full is not set!');
     }
   }
 }

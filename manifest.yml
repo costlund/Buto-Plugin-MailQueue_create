@@ -1,5 +1,9 @@
-version: 1.5.0
+version: 1.6.0
 history:
+  1.6.0:
+    date: '2023-01-02'
+    title: 'Dry run and validation'
+    description: 'Validate params. Dry run.'
   1.5.0:
     date: '2022-10-11'
     title: Tag

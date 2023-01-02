@@ -1,0 +1,27 @@
+construct:
+  mysql: 
+    message: Param [key] is missing!
+    type: exist
+  mail: 
+    message: Param [key] is missing!
+    type: exist
+  mail$subject: 
+    message: Param [key] is missing!
+    type: exist
+  mail$message: 
+    message: Param [key] is missing!
+    type: exist
+  tag: 
+    message: Param [key] is missing!
+    type: exist
+sql:
+  sql$sum: 
+    message: Param [key] is missing!
+    type: exist
+  sql$users: 
+    message: Param [key] is missing!
+    type: exist
+  mail$declarment: 
+    message: Param [key] is missing!
+    type: exist
+  

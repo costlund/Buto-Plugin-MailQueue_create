@@ -3,14 +3,26 @@ Create mail with just a few params automatic via cron job.
 Mail data is stored in table mailqueue_queue.
 
 ## Settings
-This example using url /mail_alert/create (should be used as a cron job).
+Example using url:
+```
+/mail_alert/create
+```
+Dry run.
+```
+/mail_alert/create?dry=1
+```
+In theme settings.yml.
 ```
 plugin_modules:
   mail_alert:
     plugin: mail/queue_create
     settings:
+```
+Mysql settings.
+```
       mysql: 'yml:/../buto_data/theme/[theme]/mysql.yml'
 ```
+
 ### Example 1
 Create email for each user once per day.
 Count rows in table account and send to all users not having this mail for the day.
@@ -45,6 +57,8 @@ One could set data in subject.
         and not isnull(a.email)
         having last_login_days>7
 ```
+
+## Message
 Param mail/message could have elements.
 ```
         message:
@@ -64,3 +78,12 @@ Param mail/message could have elements.
 
 ## Tag
 Param tag can have [date] or [date_hour].
+
+## Cron job
+This should be used as a cron job.
+Example of a cron job every 5 minutes.
+````
+*/5 * * * * wget https://_domain_/mail_alert/create
+````
+
+## Dry run
