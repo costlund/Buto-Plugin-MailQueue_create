@@ -1,5 +1,9 @@
-version: 1.6.0
+version: 1.6.1
 history:
+  1.6.1:
+    date: '2023-01-02'
+    title: Versions
+    description: 'Versions update.'
   1.6.0:
     date: '2023-01-02'
     title: 'Dry run and validation'
@@ -39,10 +43,10 @@ history:
 plugin:
   -
     name: wf/mysql
-    version: 1.14.8
+    version: 1.15.0
   -
     name: mail/queue
-    version: 1.9.0
+    version: 1.10.0
 sys:
   -
     name: mercury
