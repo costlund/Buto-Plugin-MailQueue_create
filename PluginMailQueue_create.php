@@ -40,8 +40,8 @@ class PluginMailQueue_create{
     /*
      * tag
      */
-    $this->settings->set('tag', str_replace('[date]', date('Y-m-d'), $this->settings->get('tag')));
-    $this->settings->set('tag', str_replace('[date_hour]', date('Y-m-d_H'), $this->settings->get('tag')));
+    $this->settings->set('tag', wfPhpfunc::str_replace('[date]', date('Y-m-d'), $this->settings->get('tag')));
+    $this->settings->set('tag', wfPhpfunc::str_replace('[date_hour]', date('Y-m-d_H'), $this->settings->get('tag')));
     /**
      */
     if($this->settings->get('sql')){
@@ -52,7 +52,7 @@ class PluginMailQueue_create{
       /*
       * sql/users
       */
-      $this->settings->set('sql/users', str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql/users')));
+      $this->settings->set('sql/users', wfPhpfunc::str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql/users')));
       /*
       * sql/sum
       * data/sum
@@ -68,7 +68,7 @@ class PluginMailQueue_create{
       /*
       * mail/*
       */
-      $this->settings->set('mail/message', str_replace('[sum]', $this->settings->get('data/sum'), $this->settings->get('mail/message')));
+      $this->settings->set('mail/message', wfPhpfunc::str_replace('[sum]', $this->settings->get('data/sum'), $this->settings->get('mail/message')));
       $this->settings->set('mail/body', $this->settings->get('mail/declarment')."\n".$this->settings->get('mail/message'));
       if(!$dry){
         foreach($this->settings->get('data/users') as $k => $v){
@@ -98,7 +98,7 @@ class PluginMailQueue_create{
       /**
        * sql_full
        */
-      $this->settings->set('sql_full', str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql_full')));
+      $this->settings->set('sql_full', wfPhpfunc::str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql_full')));
       $rs = $this->mysql->runSql($this->settings->get('sql_full'), null);
       if($rs['num_rows']){
         foreach($rs['data'] as $k => $v){
@@ -111,7 +111,7 @@ class PluginMailQueue_create{
             $message->setByTag($v);
             $rs['mail'][$k]['body'] = $message->get();
           }else{
-            $message = str_replace('[mail_text]', $v['mail_text'], $message);
+            $message = wfPhpfunc::str_replace('[mail_text]', $v['mail_text'], $message);
             $rs['mail'][$k]['body'] = $message;
           }
         }
@@ -121,8 +121,8 @@ class PluginMailQueue_create{
           $tag = $this->settings->get('tag');
           $subject = $v['subject'];
           foreach($rs['data'][$k] as $k2 => $v2){
-            $subject = str_replace("[$k2]", $v2, $subject);
-            $tag = str_replace("[$k2]", $v2, $tag);
+            $subject = wfPhpfunc::str_replace("[$k2]", $v2, $subject);
+            $tag = wfPhpfunc::str_replace("[$k2]", $v2, $tag);
           }
           $rs['mail'][$k]['subject'] = $subject;
           $rs['mail'][$k]['tag'] = $tag;
