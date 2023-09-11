@@ -1,5 +1,9 @@
-version: 1.7.0
+version: 1.7.1
 history:
+  1.7.1:
+    date: '2023-09-11'
+    title: Versions
+    description: 'Versions update.'
   1.7.0:
     date: '2023-08-17'
     title: 'PHP 8.2'
@@ -47,10 +51,10 @@ history:
 plugin:
   -
     name: wf/mysql
-    version: 1.15.0
+    version: 1.17.0
   -
     name: mail/queue
-    version: 1.10.0
+    version: 1.11.0
 sys:
   -
     name: mercury
