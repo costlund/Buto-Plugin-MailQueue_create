@@ -37,6 +37,7 @@ class PluginMailQueue_create{
   }
   public function page_create(){
     $dry = wfRequest::get('dry');
+    $localhost = wfServer::isHost('localhost');
     /*
      * tag
      */
@@ -89,7 +90,7 @@ class PluginMailQueue_create{
       /**
       * 
       */
-      if($dry && wfUser::hasRole('webmaster')){
+      if($dry && (wfUser::hasRole('webmaster') || $localhost)){
         wfHelp::print($this->settings, true);
       }else{
         exit($this->settings->get('data/sum').':'.sizeof($this->settings->get('data/users')));
@@ -144,7 +145,7 @@ class PluginMailQueue_create{
           }
         }
       }
-      if($dry && wfUser::hasRole('webmaster')){
+      if($dry && (wfUser::hasRole('webmaster') || $localhost)){
         wfHelp::print($this->settings);
         wfHelp::print($rs, true);
       }else{

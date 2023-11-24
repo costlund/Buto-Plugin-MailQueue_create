@@ -8,6 +8,7 @@ Example using url:
 /mail_alert/create
 ```
 Dry run.
+Data will be outputed if user is webmaster or domain is localhost.
 ```
 /mail_alert/create?dry=1
 ```
