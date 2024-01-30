@@ -40,7 +40,7 @@ This works well if all users should have the same message.
 ```
 ### Example 2
 This example shows how to check for user content. 
-Mandatory outputs are id, email, mail_text.
+Mandatory outputs are id (account.id), email, mail_text.
 One could set data in subject.
 ```
       mail:
