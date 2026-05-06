@@ -1,5 +1,9 @@
-version: 1.7.2
+version: 1.8.0
 history:
+  1.8.0:
+    date: '2026-05-06'
+    title: Url
+    description: 'In sql_full one can insert [server_calc_url].'
   1.7.2:
     date: '2023-11-24'
     title: Dry

@@ -100,6 +100,7 @@ class PluginMailQueue_create{
        * sql_full
        */
       $this->settings->set('sql_full', wfPhpfunc::str_replace('[tag]', $this->settings->get('tag'), $this->settings->get('sql_full')));
+      $this->settings->set('sql_full', wfPhpfunc::str_replace('[server_calc_url]', wfServer::calcUrl(), $this->settings->get('sql_full')));
       $rs = $this->mysql->runSql($this->settings->get('sql_full'), null);
       if($rs['num_rows']){
         foreach($rs['data'] as $k => $v){

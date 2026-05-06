@@ -80,6 +80,10 @@ Param mail/message could have elements.
 ## Tag
 Param tag can have [date] or [date_hour].
 
+## sql_full
+- [tag] insert the tag param.
+- [server_calc_url] inserts wfServer::calcUrl().
+
 ## Cron job
 This should be used as a cron job.
 Example of a cron job every 5 minutes.
