@@ -1,5 +1,9 @@
-version: 1.8.0
+version: 1.9.0
 history:
+  1.9.0:
+    date: '2026-07-29'
+    title: Date from
+    description: 'Add current date-time to date_from param to prevent 30 minutes delay if it is null.'
   1.8.0:
     date: '2026-05-06'
     title: Url
